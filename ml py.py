@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import pickle
 
-with open("heart_model.pkl", "rb") as f:
+with open("heart_disease_model.pkl", "rb") as f:
     model = pickle.load(f)
 
 with open("scaler.pkl", "rb") as f:
@@ -37,4 +37,5 @@ if st.button("Predict"):
     if prediction == 1:
         st.error(f"Prediction: Heart Disease Detected\nProbability: {probability:.2%}")
     else:
+
         st.success(f"Prediction: No Heart Disease Detected\nProbability of Disease: {probability:.2%}")
