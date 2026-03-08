@@ -1,17 +1,29 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
 import pickle
+from pathlib import Path
 
-try:
-    with open("heart_model.pkl", "rb") as f:
-        model = pickle.load(f)
+st.set_page_config(page_title="Heart Disease Prediction", page_icon="❤️")
 
-    with open("scaler.pkl", "rb") as f:
-        scaler = pickle.load(f)
+BASE_DIR = Path(__file__).parent
 
-except Exception as e:
-    st.error(f"Model loading failed: {e}")
-    st.stop()
+@st.cache_resource
+def load_artifacts():
+    try:
+        with open(BASE_DIR / "heart_model.pkl", "rb") as f:
+            model = pickle.load(f)
+        with open(BASE_DIR / "scaler.pkl", "rb") as f:
+            scaler = pickle.load(f)
+        return model, scaler
+    except FileNotFoundError as e:
+        st.error(f"Missing file: {e}")
+        st.stop()
+    except Exception as e:
+        st.error(f"Artifact loading failed: {e}")
+        st.stop()
+
+model, scaler = load_artifacts()
 
 st.title("Heart Disease Prediction App")
 st.write("Enter the patient's clinical details below to predict heart disease.")
@@ -31,14 +43,30 @@ ca = st.selectbox("Number of Major Vessels (ca)", [0, 1, 2, 3])
 thal = st.selectbox("Thal", [0, 1, 2])
 
 if st.button("Predict"):
-    input_data = np.array([[age, sex, cp, trestbps, chol, fbs, restecg,
-                            thalach, exang, oldpeak, slope, ca, thal]])
+    input_df = pd.DataFrame([{
+        "age": age,
+        "sex": sex,
+        "cp": cp,
+        "trestbps": trestbps,
+        "chol": chol,
+        "fbs": fbs,
+        "restecg": restecg,
+        "thalach": thalach,
+        "exang": exang,
+        "oldpeak": oldpeak,
+        "slope": slope,
+        "ca": ca,
+        "thal": thal
+    }])
 
-    input_data_scaled = scaler.transform(input_data)
-    prediction = model.predict(input_data_scaled)[0]
-    probability = model.predict_proba(input_data_scaled)[0][1]
+    try:
+        input_scaled = scaler.transform(input_df)
+        prediction = model.predict(input_scaled)[0]
+        probability = model.predict_proba(input_scaled)[0][1]
 
-    if prediction == 1:
-        st.error(f"Prediction: Heart Disease Detected\nProbability: {probability:.2%}")
-    else:
-        st.success(f"Prediction: No Heart Disease Detected\nProbability of Disease: {probability:.2%}")
+        if prediction == 1:
+            st.error(f"Prediction: Heart Disease Detected\nProbability: {probability:.2%}")
+        else:
+            st.success(f"Prediction: No Heart Disease Detected\nProbability of Disease: {probability:.2%}")
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
