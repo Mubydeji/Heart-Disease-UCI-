@@ -2,11 +2,16 @@ import streamlit as st
 import numpy as np
 import pickle
 
-with open("heart_model.pkl", "rb") as f:
-    model = pickle.load(f)
+try:
+    with open("heart_model.pkl", "rb") as f:
+        model = pickle.load(f)
 
-with open("scaler.pkl", "rb") as f:
-    scaler = pickle.load(f)
+    with open("scaler.pkl", "rb") as f:
+        scaler = pickle.load(f)
+
+except Exception as e:
+    st.error(f"Model loading failed: {e}")
+    st.stop()
 
 st.title("Heart Disease Prediction App")
 st.write("Enter the patient's clinical details below to predict heart disease.")
@@ -30,13 +35,10 @@ if st.button("Predict"):
                             thalach, exang, oldpeak, slope, ca, thal]])
 
     input_data_scaled = scaler.transform(input_data)
-
     prediction = model.predict(input_data_scaled)[0]
     probability = model.predict_proba(input_data_scaled)[0][1]
 
     if prediction == 1:
         st.error(f"Prediction: Heart Disease Detected\nProbability: {probability:.2%}")
     else:
-
         st.success(f"Prediction: No Heart Disease Detected\nProbability of Disease: {probability:.2%}")
-
