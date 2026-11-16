@@ -1,5 +1,5 @@
 # Heart Disease Risk Predictor
-### Clinical Risk Assessment Powered by Machine Learning
+### Clinical risk assessment with machine learning
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue)
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-orange)
@@ -16,7 +16,7 @@ This project builds a machine learning classification pipeline to predict heart 
 
 ## Live Demo
 
-🔗 [dsfp5app.streamlit.app](https://dsfp5app.streamlit.app)
+[dsfp5app.streamlit.app](https://dsfp5app.streamlit.app)
 
 ---
 
@@ -38,7 +38,7 @@ This project builds a machine learning classification pipeline to predict heart 
 
 ## Project Structure
 
-    heart-disease-risk-predictor/
+    heart-disease-uci-/
     ├── app.py                          # Streamlit application
     ├── heart-disease-prediction.ipynb  # Full training notebook
     ├── heart_model.pkl                 # Trained model
@@ -85,11 +85,11 @@ This project builds a machine learning classification pipeline to predict heart 
 
 Based on model coefficients, the strongest predictors of heart disease in this dataset are:
 
-- Chest pain type — asymptomatic presentation carries highest risk
+- Chest pain type, asymptomatic presentation carries highest risk
 - Number of major vessels colored by fluoroscopy
-- Thalassemia type — reversible defect is a strong positive predictor
-- ST depression (Oldpeak) — higher values indicate greater exercise stress
-- Maximum heart rate achieved — lower values associated with increased risk
+- Thalassemia type, reversible defect is a strong positive predictor
+- ST depression (Oldpeak), higher values indicate greater exercise stress
+- Maximum heart rate achieved, lower values associated with increased risk
 
 ---
 
@@ -108,11 +108,11 @@ Based on model coefficients, the strongest predictors of heart disease in this d
 ## Author
 
 **Mubarak Adesola Adedeji**
-Data Analyst · AI Developer | Python · SQL · R · Power BI
+Data Analyst | Python · SQL · R · Power BI
 [LinkedIn](https://linkedin.com/in/mubarak-adedeji-776804273) · [GitHub](https://github.com/Mubydeji)
 
 ---
 
 ## License
 
-MIT License — free to use, adapt, and build on with attribution.
+MIT License, free to use, adapt, and build on with attribution.
